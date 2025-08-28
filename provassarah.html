@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Provas Sarah</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Estilo para usar a fonte Inter que é mais moderna */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Animação de fade-in para os números */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .fade-in {
+            /* Aplica a animação com um pequeno atraso para melhor efeito */
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-50 to-gray-200 flex items-center justify-center min-h-screen p-4">
+
+    <div class="w-full max-w-4xl bg-white rounded-2xl shadow-xl p-6 md:p-8">
+        <h1 class="text-2xl md:text-3xl font-bold text-center text-gray-800 mb-8">
+           Provas Sarah
+        </h1>
+
+        <!-- Container da tabela para permitir rolagem em telas pequenas -->
+        <div class="overflow-x-auto">
+            <table class="w-full min-w-[600px] text-center">
+                <thead>
+                    <tr>
+                        <!-- Cabeçalho da Matéria -->
+                        <th class="py-3 px-4 text-left font-semibold text-gray-600">Matéria</th>
+                        
+                        <!-- Cabeçalhos P1 -->
+                        <th class="py-3 px-4 font-semibold text-gray-700 bg-[#d9ead3]/70 rounded-l-lg">P1</th>
+                        <th class="py-3 px-4 font-semibold text-gray-700 bg-[#d9ead3]/70 rounded-r-lg">Dias restantes</th>
+                        
+                        <!-- Cabeçalhos P2 -->
+                        <th class="py-3 px-4 font-semibold text-gray-700 bg-[#d0e0e3]/70 rounded-l-lg">P2</th>
+                        <th class="py-3 px-4 font-semibold text-gray-700 bg-[#d0e0e3]/70 rounded-r-lg">Dias restantes</th>
+                        
+                        <!-- Cabeçalhos P3 -->
+                        <th class="py-3 px-4 font-semibold text-gray-700 bg-[#fce5cd]/70 rounded-l-lg">P3</th>
+                        <th class="py-3 px-4 font-semibold text-gray-700 bg-[#fce5cd]/70 rounded-r-lg">Dias restantes</th>
+                    </tr>
+                </thead>
+                <tbody class="text-gray-700">
+                    <!-- Linha de cada matéria -->
+                    <tr class="border-b border-gray-200 hover:bg-gray-50 transition-colors duration-200">
+                        <td class="py-4 px-4 text-left font-medium">Agrometeorologia</td>
+                        <td data-date="2025-09-09">09/09</td>
+                        <td class="font-bold text-xl"></td>
+                        <td data-date="2025-11-04">04/11</td>
+                        <td class="font-bold text-xl"></td>
+                        <td data-date="2025-12-02">02/12</td>
+                        <td class="font-bold text-xl"></td>
+                    </tr>
+                    <tr class="border-b border-gray-200 hover:bg-gray-50 transition-colors duration-200">
+                        <td class="py-4 px-4 text-left font-medium">Genese e classificação do Solo</td>
+                        <td data-date="2025-09-17">17/09</td>
+                        <td class="font-bold text-xl"></td>
+                        <td data-date="2025-11-13">13/11</td>
+                        <td class="font-bold text-xl"></td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr class="border-b border-gray-200 hover:bg-gray-50 transition-colors duration-200">
+                        <td class="py-4 px-4 text-left font-medium">Geotecnologia</td>
+                        <td data-date="2025-09-25">25/09</td>
+                        <td class="font-bold text-xl"></td>
+                        <td data-date="2025-11-27">27/11</td>
+                        <td class="font-bold text-xl"></td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr class="hover:bg-gray-50 transition-colors duration-200">
+                        <td class="py-4 px-4 text-left font-medium">Produção de não ruminantes</td>
+                        <td data-date="2025-09-30">30/09</td>
+                        <td class="font-bold text-xl"></td>
+                        <td data-date="2025-12-02">02/12</td>
+                        <td class="font-bold text-xl"></td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const hoje = new Date();
+            hoje.setHours(0, 0, 0, 0);
+
+            const celulasComData = document.querySelectorAll('td[data-date]');
+
+            celulasComData.forEach(celula => {
+                const dataProvaString = celula.getAttribute('data-date');
+                const dataProva = new Date(dataProvaString + 'T00:00:00');
+
+                const diferencaEmMilissegundos = dataProva.getTime() - hoje.getTime();
+                const diferencaEmDias = Math.ceil(diferencaEmMilissegundos / (1000 * 60 * 60 * 24));
+
+                const celulaDiasRestantes = celula.nextElementSibling;
+
+                // Limpa o conteúdo anterior para a animação funcionar corretamente ao recarregar
+                celulaDiasRestantes.innerHTML = '';
+
+                // Adiciona um pequeno atraso para a animação ser mais visível
+                setTimeout(() => {
+                    if (diferencaEmDias < 0) {
+                        celulaDiasRestantes.innerHTML = `<span class="text-gray-400 fade-in">Já passou</span>`;
+                    } else if (diferencaEmDias === 0) {
+                        celulaDiasRestantes.innerHTML = `<span class="text-blue-600 font-bold fade-in">É HOJE!</span>`;
+                    } else {
+                        // NOVA LÓGICA DE CORES
+                        let corTexto = '';
+                        if (diferencaEmDias <= 10) {
+                            corTexto = 'text-red-500'; // Vermelho para 10 dias ou menos
+                        } else if (diferencaEmDias <= 20) {
+                            corTexto = 'text-yellow-500'; // Amarelo para 20 dias ou menos
+                        } else {
+                            corTexto = 'text-green-600'; // Verde para mais de 20 dias
+                        }
+                        celulaDiasRestantes.innerHTML = `<span class="${corTexto} fade-in">${diferencaEmDias}</span>`;
+                    }
+                }, 100); // 100ms de atraso
+            });
+        });
+    </script>
+
+</body>
+</html>
